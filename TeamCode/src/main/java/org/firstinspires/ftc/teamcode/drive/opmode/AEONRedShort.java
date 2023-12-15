@@ -26,7 +26,7 @@ public class AEONRedShort extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         Trajectory trajectory = drive.trajectoryBuilder(new Pose2d())
-                .strafeLeft(rightDISTANCE)
+                .strafeRight(rightDISTANCE)
                 .build();
 
         waitForStart();
