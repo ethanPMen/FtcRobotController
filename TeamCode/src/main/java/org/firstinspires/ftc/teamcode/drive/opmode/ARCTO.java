@@ -25,7 +25,7 @@ public class ARCTO extends LinearOpMode {
         }
     }
 
-    final double kElevatorPower = .7;
+    final double kElevatorPower = .8;
     double kElevatorOffset = 0;
     final double kElevatorScale = 1.0 / 100.0;
 
@@ -51,7 +51,7 @@ public class ARCTO extends LinearOpMode {
         DcMotor intakeMotor = hardwareMap.dcMotor.get("intakeMotor");
         Servo droneServo = hardwareMap.servo.get("droneServo");
         Servo trapdoorServo = hardwareMap.servo.get("trapdoorServo");
-        final double kP = 1.0 / 4.0;
+        final double kP = 1.0 / 3.0;
         final double kD = 0;
         final double kI = 0;
         boolean intakeOn = false;
@@ -74,9 +74,9 @@ public class ARCTO extends LinearOpMode {
         while (opModeIsActive()) {
             //resetEncoders();
 
-            double y = -gamepad1.left_stick_y; // Remember, Y stic/k value is reversed
-            double x = gamepad1.left_stick_x; // Counteract imperfect strafing
-            double rx = gamepad1.right_stick_x;
+            double y = -gamepad1.left_stick_y * -gamepad1.left_stick_y * -gamepad1.left_stick_y; // Remember, Y stic/k value is reversed
+            double x = gamepad1.left_stick_x * gamepad1.left_stick_x * gamepad1.left_stick_x; // Counteract imperfect strafing
+            double rx = gamepad1.right_stick_x * gamepad1.right_stick_x * gamepad1.right_stick_x;
             boolean buttonY = gamepad1.y;
             boolean buttonB = gamepad1.b;
             boolean buttonA = gamepad1.a;
@@ -147,7 +147,7 @@ public class ARCTO extends LinearOpMode {
                 lastError = error;
 
                 // TRAPDOOR AUTO CLOSE
-                if (elevatorPosition < 13.0) {
+                if (elevatorPosition < 14.0) {
                     trapdoorServo.setPosition(1);
                 }
 
@@ -160,7 +160,7 @@ public class ARCTO extends LinearOpMode {
                     elevatorMotor.setTargetPosition(0);
                 }
                 if (buttonX) {
-                    elevatorMotor.setTargetPosition((int) (14.0 / kElevatorScale)); // low
+                    elevatorMotor.setTargetPosition((int) (16.0 / kElevatorScale)); // low
                 }
                 if (buttonB) {
                     elevatorMotor.setTargetPosition((int) (27.0 / kElevatorScale)); // mid
@@ -192,27 +192,28 @@ public class ARCTO extends LinearOpMode {
                 }
                 //end of drone code
 
-                if (elevatorPosition < 11.0) {
+                if (elevatorPosition < 14.0) {
                     leftFront.setPower(frontLeftPower);
                     leftRear.setPower(backLeftPower);
                     rightFront.setPower(frontRightPower);
                     rightRear.setPower(backRightPower);
                 } else {
-                    leftFront.setPower(frontLeftPower / 2);
-                    leftRear.setPower(backLeftPower / 2);
-                    rightFront.setPower(frontRightPower / 2);
-                    rightRear.setPower(backRightPower / 2);
+                    leftFront.setPower(frontLeftPower / 4);
+                    leftRear.setPower(backLeftPower / 4);
+                    rightFront.setPower(frontRightPower / 4);
+                    rightRear.setPower(backRightPower / 4);
                 }
 
-                telemetry.addData("Drone Servo position", droneServo.getPosition());
+                telemetry.addData("Elevator:", setpoint);
                 telemetry.addData("Elevator Setpoint", setpoint);
-                telemetry.addData("Elevator Raw Position", elevatorMotor.getCurrentPosition());
                 telemetry.addData("Elevator Position", getElevatorPosition());
                 telemetry.addData("Elevator Target Position", elevatorMotor.getTargetPosition());
+                telemetry.addData("Elevator Raw Position", elevatorMotor.getCurrentPosition());
                 telemetry.addData("Error", error);
-                telemetry.addData("Elevator Power", elevatorPower);
-                telemetry.addData("kP", kP);
-                telemetry.addData("trapdoor position", trapdoorServo.getPosition());
+
+                telemetry.addData("\nDrone Servo position", droneServo.getPosition());
+
+                telemetry.addData("\ntrapdoor position", trapdoorServo.getPosition());
                 telemetry.addData("trapdoor pressed", trapdoorBoom);
                 telemetry.update();
             }

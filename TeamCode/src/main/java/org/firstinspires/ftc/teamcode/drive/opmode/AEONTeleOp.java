@@ -29,7 +29,7 @@ public class AEONTeleOp extends LinearOpMode {
         }
     }
 
-    final double kElevatorPower = .7;
+    final double kElevatorPower = .8;
     double kElevatorOffset = 0;
     final double kElevatorScale = 1.0 / 100.0;
 
@@ -89,9 +89,9 @@ public class AEONTeleOp extends LinearOpMode {
         boolean prevLeftBumper = gamepad1.left_bumper;
 
         while (opModeIsActive()) {
-            double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
-            double x = gamepad1.left_stick_x;
-            double rx = gamepad1.right_stick_x;
+            double y = -gamepad1.left_stick_y * -gamepad1.left_stick_y * -gamepad1.left_stick_y; // Remember, Y stick value is reversed
+            double x = gamepad1.left_stick_x * gamepad1.left_stick_x * gamepad1.left_stick_x;
+            double rx = gamepad1.right_stick_x * gamepad1.right_stick_x * gamepad1.right_stick_x;
             boolean buttonY = gamepad1.y;
             boolean buttonB = gamepad1.b;
             boolean buttonA = gamepad1.a;
@@ -178,7 +178,7 @@ public class AEONTeleOp extends LinearOpMode {
             lastError = error;
 
             // TRAPDOOR AUTO CLOSE
-            if (elevatorPosition < 13.0) {
+            if (elevatorPosition < 14.0) {
                 trapdoorServo.setPosition(1);
             }
 
@@ -190,7 +190,7 @@ public class AEONTeleOp extends LinearOpMode {
                 elevatorMotor.setTargetPosition(0);
             }
             if (buttonX) {
-                elevatorMotor.setTargetPosition((int) (14.0 / kElevatorScale)); // low
+                elevatorMotor.setTargetPosition((int) (16.0 / kElevatorScale)); // low
             }
             if (buttonB) {
                 elevatorMotor.setTargetPosition((int) (27.0 / kElevatorScale)); // mid
@@ -222,7 +222,7 @@ public class AEONTeleOp extends LinearOpMode {
             }
             //end of drone code
 
-            if (elevatorPosition < 11.0) {
+            if (elevatorPosition < 14.0) {
                 leftFront.setPower(frontLeftPower);
                 leftRear.setPower(backLeftPower);
                 rightFront.setPower(frontRightPower);
@@ -243,12 +243,9 @@ public class AEONTeleOp extends LinearOpMode {
             telemetry.addData("Elevator Power", elevatorPower);
             telemetry.addLine("\nfield centric stuff idk:");
             telemetry.addData("YawPitchRoll Angles:", imu.getRobotYawPitchRollAngles());
-            telemetry.addData("Orientation as Quaternion:", imu.getRobotOrientationAsQuaternion());
             telemetry.addData("Drone Servo position", droneServo.getPosition());
             telemetry.addData("trapdoor position", trapdoorServo.getPosition());
             telemetry.addData("trapdoor pressed", trapdoorBoom);
-            telemetry.addData("ticks", hardwareMap.dcMotor.get("leftFront").getCurrentPosition());
-            telemetry.addData("elevator ticks", hardwareMap.dcMotor.get("elevatorMotor").getCurrentPosition());
             telemetry.update();
         }
     }
