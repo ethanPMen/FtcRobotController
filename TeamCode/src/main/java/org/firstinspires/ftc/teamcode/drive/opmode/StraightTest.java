@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 @Config
 @Autonomous(group = "drive")
 public class StraightTest extends LinearOpMode {
-    public static double DISTANCE = 54; // in THEN WHEN STRAFING GO
+    public static double DISTANCE = 54;
 
     @Override
     public void runOpMode() throws InterruptedException {
