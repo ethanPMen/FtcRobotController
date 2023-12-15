@@ -17,8 +17,8 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 @Config
 @Autonomous(group = "drive")
 public class AEONRedLong extends LinearOpMode {
-    public static double frontDISTANCE = 54;
-    public static double rightDISTANCE = 120;
+    public static double forwardDISTANCE = 54;
+    public static double leftDISTANCE = 120;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -26,16 +26,20 @@ public class AEONRedLong extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Trajectory trajectory = drive.trajectoryBuilder(new Pose2d())
-                .forward(frontDISTANCE)
-                .strafeRight(rightDISTANCE)
+        Trajectory forwardTrajectory = drive.trajectoryBuilder(new Pose2d())
+                .forward(forwardDISTANCE)
+                .build();
+
+        Trajectory leftTrajectory = drive.trajectoryBuilder(new Pose2d())
+                .strafeLeft(leftDISTANCE)
                 .build();
 
         waitForStart();
 
         if (isStopRequested()) return;
 
-        drive.followTrajectory(trajectory);
+        drive.followTrajectory(forwardTrajectory);
+        drive.followTrajectory(leftTrajectory);
 
         Pose2d poseEstimate = drive.getPoseEstimate();
         telemetry.addData("finalX", poseEstimate.getX());
