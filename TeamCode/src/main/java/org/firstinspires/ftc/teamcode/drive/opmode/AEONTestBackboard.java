@@ -10,35 +10,32 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.drive.opmode.ARCTO;
 
 /*
  * This is a simple routine to test translational drive capabilities.
  */
 @Config
 @Autonomous(group = "drive")
-public class AEONRedLong extends LinearOpMode {
-    public static double leftDISTANCE = 54;
-    public static double forwardDISTANCE = 120;
+public class AEONTestBackboard extends LinearOpMode {
+    public static double leftDISTANCE = 24;
 
     @Override
     public void runOpMode() throws InterruptedException {
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
+        ARCTO arcto = new ARCTO();
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Trajectory leftTrajectory = drive.trajectoryBuilder(new Pose2d())
+        Trajectory trajectory = drive.trajectoryBuilder(new Pose2d())
                 .strafeLeft(leftDISTANCE)
-                .build();
-
-        Trajectory forwardTrajectory = drive.trajectoryBuilder(new Pose2d())
-                .forward(forwardDISTANCE)
                 .build();
 
         waitForStart();
 
         if (isStopRequested()) return;
 
-        drive.followTrajectory(leftTrajectory);
-        drive.followTrajectory(forwardTrajectory);
+        drive.followTrajectory(trajectory);
+        arcto.elevatorMotor.setTargetPosition(1400);
 
         Pose2d poseEstimate = drive.getPoseEstimate();
         telemetry.addData("finalX", poseEstimate.getX());

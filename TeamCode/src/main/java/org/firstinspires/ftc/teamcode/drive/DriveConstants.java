@@ -17,7 +17,6 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
  */
 @Config
 public class DriveConstants {
-
     /*
      * These are motor constants that should be listed online for your motors.
      */
@@ -54,9 +53,9 @@ public class DriveConstants {
      * motor encoders or have elected not to use them for velocity control, these values should be
      * empirically tuned.
      */
-    public static double kV = 1.0 / rpmToVelocity(MAX_RPM);
+    public static double kV = 0.02023 / rpmToVelocity(MAX_RPM);
     public static double kA = 0;
-    public static double kStatic = 0;
+    public static double kStatic = 0.06874;
 
     /*
      * These values are used to generate the trajectories for you robot. To ensure proper operation,

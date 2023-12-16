@@ -17,29 +17,28 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 @Config
 @Autonomous(group = "drive")
 public class AEONBlueLong extends LinearOpMode {
-    public static double forwardDISTANCE = 54;
-    public static double rightDISTANCE = 120;
+    public static double rightDISTANCE = 54;
+    public static double forwardDISTANCE = 120;
 
     @Override
     public void runOpMode() throws InterruptedException {
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
-
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-
-        Trajectory forwardTrajectory = drive.trajectoryBuilder(new Pose2d())
-                .forward(forwardDISTANCE)
-                .build();
 
         Trajectory rightTrajectory = drive.trajectoryBuilder(new Pose2d())
                 .strafeRight(rightDISTANCE)
+                .build();
+
+        Trajectory forwardTrajectory = drive.trajectoryBuilder(new Pose2d())
+                .forward(forwardDISTANCE)
                 .build();
 
         waitForStart();
 
         if (isStopRequested()) return;
 
-        drive.followTrajectory(forwardTrajectory);
         drive.followTrajectory(rightTrajectory);
+        drive.followTrajectory(forwardTrajectory);
 
         Pose2d poseEstimate = drive.getPoseEstimate();
         telemetry.addData("finalX", poseEstimate.getX());
