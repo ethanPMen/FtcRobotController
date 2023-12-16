@@ -63,7 +63,8 @@ public class Elevator {
     private void update() {
         if (runningToPosition) {
             // Put logic for running to position with PID
-            double error = positionCmdInches  - elevatorMotor.getCurrentPosition() * kElevatorScale;
+            double meas = elevatorMotor.getCurrentPosition() * kElevatorScale;
+            double error = positionCmdInches - meas;
             if (telemetry != null) {
                 telemetry.addData("Elevator Error Inches", error);
             }
@@ -71,7 +72,7 @@ public class Elevator {
             double elevatorPower = kP * error + kD * changeInError;
             elevatorMotor.setPower(elevatorPower);
             lastError = error;
-            if (Math.abs(error) < 1) {
+            if (Math.abs(error) < 1 || (positionCmdInches == 1 && meas < 3)) {
                 runningToPosition = false;
                 busy = false;
                 elevatorMotor.setPower(0);

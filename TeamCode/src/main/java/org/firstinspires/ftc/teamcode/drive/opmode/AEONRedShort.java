@@ -51,7 +51,7 @@ public class AEONRedShort extends LinearOpMode {
         waitForStart();
 
         if (isStopRequested()) return;
-
+//        elevator.setTelemetry(telemetry);
         drive.followTrajectory(leftTrajectory);
         drive.followTrajectory(forwardTrajectory);
         elevator.runToPosition(15);
@@ -60,6 +60,8 @@ public class AEONRedShort extends LinearOpMode {
         elevator.closeTrapDoor();
         elevator.runToPosition(1);
         drive.followTrajectory(rightTrajectory);
+        telemetry.addLine("Done right");
+        telemetry.update();
 
         Pose2d poseEstimate = drive.getPoseEstimate();
         telemetry.addData("finalX", poseEstimate.getX());
