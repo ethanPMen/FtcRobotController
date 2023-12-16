@@ -8,6 +8,7 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.checkerframework.checker.units.qual.A;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
@@ -17,8 +18,9 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 @Config
 @Autonomous(group = "drive")
 public class AEONRedLong extends LinearOpMode {
-    public static double leftDISTANCE = 54;
-    public static double forwardDISTANCE = 120;
+
+    public static double leftDISTANCE = AEONBlueLong.rightDISTANCE;
+    public static double forwardDISTANCE = AEONBlueLong.forwardDISTANCE;
 
     @Override
     public void runOpMode() throws InterruptedException {

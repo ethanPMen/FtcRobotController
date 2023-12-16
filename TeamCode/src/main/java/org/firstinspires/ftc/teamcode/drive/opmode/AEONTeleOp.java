@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive.opmode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -43,6 +44,14 @@ public class AEONTeleOp extends LinearOpMode {
 
     DcMotor elevatorMotor;
 
+    static DcMotor getIntakeMotor(HardwareMap hardwareMap) {
+        return hardwareMap.dcMotor.get("intakeMotor");
+    }
+
+    public static DcMotor getElevatorMotor(HardwareMap hardwareMap) {
+        return hardwareMap.dcMotor.get("elevatorMotor");
+    }
+
     @Override
     public void runOpMode() throws InterruptedException {
         // Declare our motors
@@ -51,8 +60,8 @@ public class AEONTeleOp extends LinearOpMode {
         DcMotor leftRear = hardwareMap.dcMotor.get("leftRear");
         DcMotor rightFront = hardwareMap.dcMotor.get("rightFront");
         DcMotor rightRear = hardwareMap.dcMotor.get("rightRear");
-        elevatorMotor = hardwareMap.dcMotor.get("elevatorMotor");
-        DcMotor intakeMotor = hardwareMap.dcMotor.get("intakeMotor");
+        elevatorMotor = getElevatorMotor(hardwareMap);
+        DcMotor intakeMotor = getIntakeMotor(hardwareMap);
         Servo droneServo = hardwareMap.servo.get("droneServo");
         Servo trapdoorServo = hardwareMap.servo.get("trapdoorServo");
         final double kP = 1.0 / 3.0;
