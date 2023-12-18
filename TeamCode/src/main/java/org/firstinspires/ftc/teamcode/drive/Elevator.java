@@ -72,7 +72,7 @@ public class Elevator {
             double elevatorPower = kP * error + kD * changeInError;
             elevatorMotor.setPower(elevatorPower);
             lastError = error;
-            if (Math.abs(error) < 1 || (positionCmdInches == 1 && meas < 3)) {
+            if (Math.abs(error) < 2.5 || (positionCmdInches == 1 && meas < 3)) {
                 runningToPosition = false;
                 busy = false;
                 elevatorMotor.setPower(0);

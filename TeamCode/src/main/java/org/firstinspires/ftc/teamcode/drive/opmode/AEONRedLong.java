@@ -8,31 +8,39 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.checkerframework.checker.units.qual.A;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.drive.Elevator;
 
-/*
- * This is a simple routine to test translational drive capabilities.
- */
 @Config
 @Autonomous(group = "drive")
 public class AEONRedLong extends LinearOpMode {
 
-    public static double leftDISTANCE = AEONBlueLong.rightDISTANCE;
-    public static double forwardDISTANCE = AEONBlueLong.forwardDISTANCE;
+    private boolean left;
+    public AEONRedLong(boolean left) {
+        this.left = left;
+    }
+    public static double leftDISTANCE = 70;
+    public static double forwardDISTANCE = 80;
+    public static double rightDISTANCE = 18;
+    private Elevator elevator;
 
     @Override
     public void runOpMode() throws InterruptedException {
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
+        elevator = Elevator.getInstance(hardwareMap);
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         Trajectory leftTrajectory = drive.trajectoryBuilder(new Pose2d())
-                .strafeLeft(leftDISTANCE)
+                .strafeLeft(this.left ? leftDISTANCE : -leftDISTANCE)
                 .build();
 
         Trajectory forwardTrajectory = drive.trajectoryBuilder(new Pose2d())
                 .forward(forwardDISTANCE)
+                .build();
+
+        Trajectory rightTrajectory = drive.trajectoryBuilder(new Pose2d())
+                .strafeRight(this.left ? rightDISTANCE : -rightDISTANCE)
                 .build();
 
         waitForStart();
@@ -41,6 +49,12 @@ public class AEONRedLong extends LinearOpMode {
 
         drive.followTrajectory(leftTrajectory);
         drive.followTrajectory(forwardTrajectory);
+        drive.followTrajectory(rightTrajectory);
+        elevator.runToPosition(15);
+        elevator.openTrapDoor();
+        Thread.sleep(2000);
+        elevator.closeTrapDoor();
+        elevator.runToPosition(1);
 
         Pose2d poseEstimate = drive.getPoseEstimate();
         telemetry.addData("finalX", poseEstimate.getX());

@@ -12,9 +12,6 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.Elevator;
 
-/*
- * This is a simple routine to test translational drive capabilities.
- */
 @Config
 @Autonomous(group = "drive")
 public class AEONRedShort extends LinearOpMode {
@@ -60,8 +57,6 @@ public class AEONRedShort extends LinearOpMode {
         elevator.closeTrapDoor();
         elevator.runToPosition(1);
         drive.followTrajectory(rightTrajectory);
-        telemetry.addLine("Done right");
-        telemetry.update();
 
         Pose2d poseEstimate = drive.getPoseEstimate();
         telemetry.addData("finalX", poseEstimate.getX());
