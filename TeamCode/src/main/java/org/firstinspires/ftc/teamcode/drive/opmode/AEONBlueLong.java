@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 @Config
 @Autonomous(group = "drive")
-public class AEONBlueLong extends AEONRedShort {
+public class AEONBlueLong extends AEONRedLong {
     public AEONBlueLong() {
         super(false);
     }

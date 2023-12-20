@@ -20,9 +20,12 @@ public class AEONRedLong extends LinearOpMode {
     public AEONRedLong(boolean left) {
         this.left = left;
     }
-    public static double leftDISTANCE = 70;
-    public static double forwardDISTANCE = 80;
-    public static double rightDISTANCE = 18;
+    public static double leftDISTANCE = 72;
+    public static double forwardDISTANCE = 78;
+    public static double rightDISTANCE = 8;
+    public static double adjustDISTANCE = 24;
+    public static double parkDISTANCE = 28;
+    public static double park2DISTANCE = 24;
     private Elevator elevator;
 
     @Override
@@ -43,6 +46,19 @@ public class AEONRedLong extends LinearOpMode {
                 .strafeRight(this.left ? rightDISTANCE : -rightDISTANCE)
                 .build();
 
+        Trajectory adjustTrajectory = drive.trajectoryBuilder(new Pose2d())
+                .forward(adjustDISTANCE)
+                .build();
+
+        Trajectory parkTrajectory = drive.trajectoryBuilder(new Pose2d())
+                .strafeLeft(this.left ? parkDISTANCE : -parkDISTANCE)
+                .build();
+
+        Trajectory park2Trajectory = drive.trajectoryBuilder(new Pose2d())
+                .forward(park2DISTANCE)
+                .build();
+
+
         waitForStart();
 
         if (isStopRequested()) return;
@@ -50,11 +66,14 @@ public class AEONRedLong extends LinearOpMode {
         drive.followTrajectory(leftTrajectory);
         drive.followTrajectory(forwardTrajectory);
         drive.followTrajectory(rightTrajectory);
-        elevator.runToPosition(15);
+        drive.followTrajectory(adjustTrajectory);
+        elevator.runToPosition(27);
         elevator.openTrapDoor();
         Thread.sleep(2000);
         elevator.closeTrapDoor();
         elevator.runToPosition(1);
+        drive.followTrajectory(parkTrajectory);
+        drive.followTrajectory(park2Trajectory);
 
         Pose2d poseEstimate = drive.getPoseEstimate();
         telemetry.addData("finalX", poseEstimate.getX());
