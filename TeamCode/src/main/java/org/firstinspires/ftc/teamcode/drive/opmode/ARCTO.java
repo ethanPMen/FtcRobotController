@@ -200,10 +200,10 @@ public class ARCTO extends LinearOpMode {
                     rightFront.setPower(frontRightPower);
                     rightRear.setPower(backRightPower);
                 } else {
-                    leftFront.setPower(frontLeftPower / 4);
-                    leftRear.setPower(backLeftPower / 4);
-                    rightFront.setPower(frontRightPower / 4);
-                    rightRear.setPower(backRightPower / 4);
+                    leftFront.setPower(frontLeftPower / 5);
+                    leftRear.setPower(backLeftPower / 5);
+                    rightFront.setPower(frontRightPower / 5);
+                    rightRear.setPower(backRightPower / 5);
                 }
 
                 telemetry.addData("Elevator:", setpoint);

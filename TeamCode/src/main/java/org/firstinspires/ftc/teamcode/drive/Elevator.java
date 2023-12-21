@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.drive.opmode.AEONTeleOp;
 
 public class Elevator {
     private DcMotor elevatorMotor;
-    private Servo trapdoorServo; // Ethan Likes Men
+    private Servo trapdoorServo;
     private Elevator(HardwareMap hardwareMap) {
         this.elevatorMotor = AEONTeleOp.getElevatorMotor(hardwareMap);
         trapdoorServo = hardwareMap.servo.get("trapdoorServo");

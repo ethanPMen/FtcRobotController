@@ -20,12 +20,12 @@ public class AEONRedLong extends LinearOpMode {
     public AEONRedLong(boolean left) {
         this.left = left;
     }
-    public static double leftDISTANCE = 72;
-    public static double forwardDISTANCE = 78;
-    public static double rightDISTANCE = 8;
-    public static double adjustDISTANCE = 24;
-    public static double parkDISTANCE = 28;
-    public static double park2DISTANCE = 24;
+    public static double leftDISTANCE = 68;
+    public static double forwardDISTANCE = 73;
+    public static double rightDISTANCE = 16;
+    public static double adjustDISTANCE = 28;
+    public static double parkDISTANCE = 34;
+    public static double park2DISTANCE = 38;
     private Elevator elevator;
 
     @Override
