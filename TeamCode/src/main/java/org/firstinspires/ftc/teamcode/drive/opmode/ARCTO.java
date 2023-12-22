@@ -4,30 +4,15 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
+import org.firstinspires.ftc.teamcode.drive.Sploon;
 
 @TeleOp
 public class ARCTO extends LinearOpMode {
-    class SlewRateLimiter {
-        private double slewRateMax;
-        private double lastSetpoint = 0;
 
-        SlewRateLimiter(double slewRateMax) {
-            this.slewRateMax = slewRateMax;
-        }
-
-        double update(double setpoint) {
-            double change = setpoint - lastSetpoint;
-            if (Math.abs(change) > slewRateMax) {
-                return slewRateMax * Math.signum(change);
-            }
-            return setpoint;
-        }
-    }
-
-    final double kElevatorPower = .8;
     double kElevatorOffset = 0;
     final double kElevatorScale = 1.0 / 100.0;
 
@@ -40,6 +25,7 @@ public class ARCTO extends LinearOpMode {
     }
 
     DcMotor elevatorMotor;
+    Sploon sploon;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -50,6 +36,7 @@ public class ARCTO extends LinearOpMode {
         DcMotor rightFront = hardwareMap.dcMotor.get("rightFront");
         DcMotor rightRear = hardwareMap.dcMotor.get("rightRear");
         elevatorMotor = hardwareMap.dcMotor.get("elevatorMotor");
+        sploon = new Sploon(hardwareMap);
         DcMotor intakeMotor = hardwareMap.dcMotor.get("intakeMotor");
         Servo droneServo = hardwareMap.servo.get("droneServo");
         Servo trapdoorServo = hardwareMap.servo.get("trapdoorServo");
@@ -154,7 +141,6 @@ public class ARCTO extends LinearOpMode {
                 }
 
                 //elevator
-
                 if (opA) {
                     reZero(); //sets whatever position it's at to zero
                 }
@@ -173,19 +159,20 @@ public class ARCTO extends LinearOpMode {
                 elevatorMotor.setPower(elevatorPower);
 
                 //manual movement
-                if (opX) {
-                    elevatorMotor.setPower(.5); //up
-                    elevatorMotor.setTargetPosition(elevatorMotor.getCurrentPosition());
-                }
-                if (opB) {
+                if (opY) {
                     elevatorMotor.setPower(-.5);
                     elevatorMotor.setTargetPosition(elevatorMotor.getCurrentPosition());//down
                 }
-                if (opY) {
-                    elevatorPower = 0;
-                    elevatorMotor.setTargetPosition(elevatorMotor.getCurrentPosition()); //stop
-                }
 
+
+                //CLIMB SPLOON
+                if (opX) {
+                    sploon.setSploonMotor(1);
+                } else if (opB) {
+                    sploon.setSploonMotor(-1);
+                } else {
+                    sploon.setSploonMotor(0);
+                }
 
                 //drone code
                 if (opLB) {

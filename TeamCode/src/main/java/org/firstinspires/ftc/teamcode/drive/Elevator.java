@@ -5,13 +5,13 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.drive.opmode.AEONTeleOp;
+import org.firstinspires.ftc.teamcode.drive.opmode.ARCTO;
 
 public class Elevator {
     private DcMotor elevatorMotor;
     private Servo trapdoorServo;
     private Elevator(HardwareMap hardwareMap) {
-        this.elevatorMotor = AEONTeleOp.getElevatorMotor(hardwareMap);
+        this.elevatorMotor = ARCTO.getElevatorMotor(hardwareMap);
         trapdoorServo = hardwareMap.servo.get("trapdoorServo");
     }
 
