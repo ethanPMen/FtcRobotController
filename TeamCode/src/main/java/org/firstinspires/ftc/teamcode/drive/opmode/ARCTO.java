@@ -27,6 +27,14 @@ public class ARCTO extends LinearOpMode {
     DcMotor elevatorMotor;
     Sploon sploon;
 
+    static DcMotor getIntakeMotor(HardwareMap hardwareMap) {
+        return hardwareMap.dcMotor.get("intakeMotor");
+    }
+
+    public static DcMotor getElevatorMotor(HardwareMap hardwareMap) {
+        return hardwareMap.dcMotor.get("elevatorMotor");
+    }
+
     @Override
     public void runOpMode() throws InterruptedException {
         // Declare our motors
@@ -82,6 +90,8 @@ public class ARCTO extends LinearOpMode {
             boolean opB = gamepad2.b;
             boolean opA = gamepad2.a;
             boolean opX = gamepad2.x;
+            boolean opdup = gamepad2.dpad_up;
+            boolean opddown = gamepad2.dpad_down;
             boolean opLB = gamepad2.left_bumper;
             boolean opRB = gamepad2.right_bumper;
 
@@ -166,12 +176,16 @@ public class ARCTO extends LinearOpMode {
 
 
                 //CLIMB SPLOON
-                if (opX) {
+                if (opddown) {
                     sploon.setSploonMotor(1);
-                } else if (opB) {
+                } else if (opdup) {
                     sploon.setSploonMotor(-1);
                 } else {
                     sploon.setSploonMotor(0);
+                }
+                //SET POSITION FOR CLIMB
+                if (opB) {
+                    sploon.setClimbPosition();
                 }
 
                 //drone code

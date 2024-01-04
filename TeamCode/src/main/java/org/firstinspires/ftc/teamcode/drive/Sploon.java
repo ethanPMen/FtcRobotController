@@ -14,4 +14,5 @@ public class Sploon {
     public void setSploonMotor (double power){
         sploonMotor.setPower(power);
     }
+    public void setClimbPosition (){sploonMotor.setTargetPosition(sploonMotor.getCurrentPosition());}
 }
