@@ -13,22 +13,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @TeleOp
 public class AEONTeleOp extends LinearOpMode {
-    class SlewRateLimiter {
-        private double slewRateMax;
-        private double lastSetpoint = 0;
-
-        SlewRateLimiter(double slewRateMax) {
-            this.slewRateMax = slewRateMax;
-        }
-
-        double update(double setpoint) {
-            double change = setpoint - lastSetpoint;
-            if (Math.abs(change) > slewRateMax) {
-                return slewRateMax * Math.signum(change);
-            }
-            return setpoint;
-        }
-    }
 
     final double kElevatorPower = .8;
     double kElevatorOffset = 0;

@@ -24,7 +24,9 @@ public class AEONRedShort extends LinearOpMode {
     }
     public static double leftDISTANCE = 34;
     public static double forwardDISTANCE = 36;
+    public static double backDISTANCE = 1;
     public static double rightDISTANCE = 32;
+    public static double parkDISTANCE = 16;
     private Elevator elevator;
 
     @Override
@@ -41,8 +43,16 @@ public class AEONRedShort extends LinearOpMode {
                 .forward(forwardDISTANCE)
                 .build();
 
+        Trajectory backTrajectory = drive.trajectoryBuilder(new Pose2d())
+                .back(backDISTANCE)
+                .build();
+
         Trajectory rightTrajectory = drive.trajectoryBuilder(new Pose2d())
                 .strafeRight(this.left ? rightDISTANCE : -rightDISTANCE)
+                .build();
+
+        Trajectory parkTrajectory = drive.trajectoryBuilder(new Pose2d())
+                .forward(parkDISTANCE)
                 .build();
 
         waitForStart();
@@ -54,9 +64,11 @@ public class AEONRedShort extends LinearOpMode {
         elevator.runToPosition(15);
         elevator.openTrapDoor();
         Thread.sleep(2000);
+        drive.followTrajectory(backTrajectory);
         elevator.closeTrapDoor();
         elevator.runToPosition(1);
         drive.followTrajectory(rightTrajectory);
+        drive.followTrajectory(parkTrajectory);
 
         Pose2d poseEstimate = drive.getPoseEstimate();
         telemetry.addData("finalX", poseEstimate.getX());

@@ -20,11 +20,15 @@ public class AEONRedLong extends LinearOpMode {
     public AEONRedLong(boolean left) {
         this.left = left;
     }
-    public static double leftDISTANCE = 68;
-    public static double forwardDISTANCE = 73;
+    public AEONRedLong() {
+        this.left = true;
+    }
+
+    public static double leftDISTANCE = 67;
+    public static double forwardDISTANCE = 71;
     public static double rightDISTANCE = 16;
     public static double adjustDISTANCE = 28;
-    public static double parkDISTANCE = 34;
+    public static double parkDISTANCE = 36;
     public static double park2DISTANCE = 38;
     private Elevator elevator;
 
@@ -62,24 +66,23 @@ public class AEONRedLong extends LinearOpMode {
         waitForStart();
 
         if (isStopRequested()) return;
+            drive.followTrajectory(leftTrajectory);
+            drive.followTrajectory(forwardTrajectory);
+            drive.followTrajectory(rightTrajectory);
+            drive.followTrajectory(adjustTrajectory);
+            elevator.runToPosition(27);
+            elevator.openTrapDoor();
+            Thread.sleep(2000);
+            elevator.closeTrapDoor();
+            elevator.runToPosition(1);
+            drive.followTrajectory(parkTrajectory);
+            drive.followTrajectory(park2Trajectory);
 
-        drive.followTrajectory(leftTrajectory);
-        drive.followTrajectory(forwardTrajectory);
-        drive.followTrajectory(rightTrajectory);
-        drive.followTrajectory(adjustTrajectory);
-        elevator.runToPosition(27);
-        elevator.openTrapDoor();
-        Thread.sleep(2000);
-        elevator.closeTrapDoor();
-        elevator.runToPosition(1);
-        drive.followTrajectory(parkTrajectory);
-        drive.followTrajectory(park2Trajectory);
-
-        Pose2d poseEstimate = drive.getPoseEstimate();
-        telemetry.addData("finalX", poseEstimate.getX());
-        telemetry.addData("finalY", poseEstimate.getY());
-        telemetry.addData("finalHeading", poseEstimate.getHeading());
-        telemetry.update();
+            Pose2d poseEstimate = drive.getPoseEstimate();
+            telemetry.addData("finalX", poseEstimate.getX());
+            telemetry.addData("finalY", poseEstimate.getY());
+            telemetry.addData("finalHeading", poseEstimate.getHeading());
+            telemetry.update();
 
         while (!isStopRequested() && opModeIsActive()) ;
     }

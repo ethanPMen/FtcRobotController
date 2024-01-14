@@ -67,7 +67,8 @@ public class ARCTO extends LinearOpMode {
         double lastError = 0;
         boolean prevRightBumper = gamepad1.right_bumper;
         boolean prevLeftBumper = gamepad1.left_bumper;
-
+        boolean shouldHoldClimber = false;
+        final double holdingPower = 0.5;
         while (opModeIsActive()) {
             //resetEncoders();
 
@@ -92,6 +93,8 @@ public class ARCTO extends LinearOpMode {
             boolean opX = gamepad2.x;
             boolean opdup = gamepad2.dpad_up;
             boolean opddown = gamepad2.dpad_down;
+            boolean opdleft = gamepad2.dpad_left;
+            boolean opdright = gamepad2.dpad_right;
             boolean opLB = gamepad2.left_bumper;
             boolean opRB = gamepad2.right_bumper;
 
@@ -176,16 +179,24 @@ public class ARCTO extends LinearOpMode {
 
 
                 //CLIMB SPLOON
-                if (opddown) {
+                if (opdup) {
                     sploon.setSploonMotor(1);
-                } else if (opdup) {
+                } else if (opddown) {
                     sploon.setSploonMotor(-1);
+                    shouldHoldClimber = false;
+                } else if (shouldHoldClimber) {
+                    sploon.setSploonMotor(holdingPower);
                 } else {
                     sploon.setSploonMotor(0);
                 }
                 //SET POSITION FOR CLIMB
                 if (opB) {
-                    sploon.setClimbPosition();
+                    shouldHoldClimber = true;
+                }
+                if (opdleft) {
+                    sploon.rotateServo(.1);
+                } else if (opdright) {
+                    sploon.rotateServo(.6);
                 }
 
                 //drone code
